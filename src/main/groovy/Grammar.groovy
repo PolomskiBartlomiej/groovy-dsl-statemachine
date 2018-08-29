@@ -9,7 +9,7 @@ class Grammar {
     String fromState = ""
     String toState = ""
 
-    def make(@DelegatesTo(strategy = Closure.DELEGATE_ONLY, value = Grammar) Closure closure) {
+    def upgrade(@DelegatesTo(strategy = Closure.DELEGATE_ONLY, value = Grammar) Closure closure) {
         def code = closure.rehydrate(this, this, this)
         code.resolveStrategy = Closure.DELEGATE_ONLY
         code()
@@ -36,7 +36,7 @@ class Grammar {
     def on(event, Closure closure) {
         new Grammar(transitionEvent: event ? event : "",
                 fromState: fromState,
-                toState: toState).make closure
+                toState: toState).upgrade closure
     }
 
     def from(state) {
@@ -48,7 +48,7 @@ class Grammar {
     def from(state, Closure closure) {
         new Grammar(transitionEvent: transitionEvent,
                 fromState: state ? state : "",
-                toState: toState).make closure
+                toState: toState).upgrade closure
     }
 
     def to(state) {
@@ -60,7 +60,7 @@ class Grammar {
     def to(state, Closure closure) {
         new Grammar(transitionEvent: transitionEvent,
                 fromState: fromState,
-                toState: state ? state : "").make closure
+                toState: state ? state : "").upgrade closure
     }
 
     String toString() {

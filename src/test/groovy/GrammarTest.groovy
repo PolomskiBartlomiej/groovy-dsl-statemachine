@@ -154,14 +154,14 @@ class GrammarTest extends Specification {
         grammar.toString() == "event: fromState->toState"
     }
 
-    def "make full packed closure"() {
+    def "upgrade to full packed closure"() {
         given:
         def _fromState = "fromState"
         def _toState = "toState"
         def _event = "event"
 
         when:
-        def grammar = new Grammar().make {
+        def grammar = new Grammar().upgrade {
             from _fromState, { to _toState, { on _event } }
         }
 
@@ -172,10 +172,55 @@ class GrammarTest extends Specification {
             toState == _toState
         }
     }
+
+    def "upgrade only toState"() {
+        given:
+        def _toState = "toState"
+
+        when:
+        def grammar = new Grammar().upgrade {
+            to _toState
+        }
+
+        then:
+        with(grammar) {
+            toState == _toState
+        }
+    }
+
+    def "upgrade only fromState"() {
+        given:
+        def _fromState = "fromState"
+
+        when:
+        def grammar = new Grammar().upgrade {
+            from _fromState
+        }
+
+        then:
+        with(grammar) {
+            fromState == _fromState
+        }
+    }
+
+    def "upgrade only transitionEvent"() {
+        given:
+        def _transitionEvent = "transitionEvent"
+
+        when:
+        def grammar = new Grammar().upgrade {
+            on _transitionEvent
+        }
+
+        then:
+        with(grammar) {
+            transitionEvent == _transitionEvent
+        }
+    }
     
     def "word is missing (method in closure is missing)"() {
         when:
-        new Grammar().make {
+        new Grammar().upgrade {
             missingMethod "a"
         }
         
@@ -185,7 +230,7 @@ class GrammarTest extends Specification {
 
     def "word is missing (property in closure is missing)"() {
         when:
-        new Grammar().make {
+        new Grammar().upgrade {
             missingProperty
         }
 
