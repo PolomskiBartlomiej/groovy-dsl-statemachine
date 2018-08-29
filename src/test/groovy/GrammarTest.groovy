@@ -4,11 +4,11 @@ import spock.lang.Specification
  * Created by mtumilowicz on 2018-08-29.
  */
 class GrammarTest extends Specification {
-    
+
     def "all fields initially should be empty strings"() {
         given:
         def grammar = new Grammar()
-        
+
         expect:
         with(grammar) {
             transitionEvent == ""
@@ -16,11 +16,11 @@ class GrammarTest extends Specification {
             toState == ""
         }
     }
-    
+
     def "if on(null) then transitionEvent should be empty string"() {
         given:
         def grammar = new Grammar().on(null)
-        
+
         expect:
         with(grammar) {
             transitionEvent == ""
@@ -46,7 +46,7 @@ class GrammarTest extends Specification {
             toState == ""
         }
     }
-    
+
     def "test on - immutability"() {
         given:
         def transition_event = "test"
@@ -55,10 +55,10 @@ class GrammarTest extends Specification {
         when:
         grammar.on(transition_event)
 
-        then:'grammar should not change'
+        then: 'grammar should not change'
         grammar.transitionEvent == ""
     }
-    
+
     def "test on"() {
         given:
         def transition_event = "test"
@@ -79,7 +79,7 @@ class GrammarTest extends Specification {
         when:
         grammar.from(from_state)
 
-        then:'grammar should not change'
+        then: 'grammar should not change'
         grammar.fromState == ""
     }
 
@@ -103,7 +103,7 @@ class GrammarTest extends Specification {
         when:
         grammar.to(to_state)
 
-        then:'grammar should not change'
+        then: 'grammar should not change'
         grammar.toState == ""
     }
 
@@ -118,7 +118,7 @@ class GrammarTest extends Specification {
         then:
         grammar_after_to.toState == to_state
     }
-    
+
     def "test full tense: on().from().to()"() {
         given:
         def transition_state = "event"
@@ -129,7 +129,7 @@ class GrammarTest extends Specification {
 
         when:
         def grammar_after_on_from_to = grammar.on(transition_state).from(from_state).to(to_state)
-        
+
         then:
         with(grammar_after_on_from_to) {
             transitionEvent == transition_state
@@ -137,15 +137,15 @@ class GrammarTest extends Specification {
             toState == to_state
         }
     }
-    
+
     def "if word appears many times, only the last one occurrence is important"() {
         when:
         def grammar_multiple_from = new Grammar().from("from1").from("from2")
-        
+
         then:
         grammar_multiple_from.fromState == "from2"
     }
-    
+
     def "test toString"() {
         given:
         def grammar = new Grammar(transitionEvent: "event", toState: "toState", fromState: "fromState")
@@ -153,4 +153,89 @@ class GrammarTest extends Specification {
         expect:
         grammar.toString() == "event: fromState->toState"
     }
+
+    def "upgrade to full packed closure"() {
+        given:
+        def _fromState = "fromState"
+        def _toState = "toState"
+        def _event = "event"
+
+        when:
+        def grammar = new Grammar().upgrade {
+            from _fromState, { to _toState, { on _event } }
+        }
+
+        then:
+        with(grammar) {
+            transitionEvent == _event
+            fromState == _fromState
+            toState == _toState
+        }
+    }
+
+    def "upgrade only toState"() {
+        given:
+        def _toState = "toState"
+
+        when:
+        def grammar = new Grammar().upgrade {
+            to _toState
+        }
+
+        then:
+        with(grammar) {
+            toState == _toState
+        }
+    }
+
+    def "upgrade only fromState"() {
+        given:
+        def _fromState = "fromState"
+
+        when:
+        def grammar = new Grammar().upgrade {
+            from _fromState
+        }
+
+        then:
+        with(grammar) {
+            fromState == _fromState
+        }
+    }
+
+    def "upgrade only transitionEvent"() {
+        given:
+        def _transitionEvent = "transitionEvent"
+
+        when:
+        def grammar = new Grammar().upgrade {
+            on _transitionEvent
+        }
+
+        then:
+        with(grammar) {
+            transitionEvent == _transitionEvent
+        }
+    }
+    
+    def "word is missing (method in closure is missing)"() {
+        when:
+        new Grammar().upgrade {
+            missingMethod "a"
+        }
+        
+        then:
+        thrown(GrammarWordNotSupported)
+    }
+
+    def "word is missing (property in closure is missing)"() {
+        when:
+        new Grammar().upgrade {
+            missingProperty
+        }
+
+        then:
+        thrown(GrammarWordNotSupported)
+    }
+
 }
