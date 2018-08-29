@@ -56,7 +56,7 @@ class GrammarTest extends Specification {
         grammar.on(transition_event)
 
         then:'grammar should not change'
-        !grammar.transitionEvent
+        grammar.transitionEvent == ""
     }
     
     def "test on"() {
@@ -80,7 +80,7 @@ class GrammarTest extends Specification {
         grammar.from(from_state)
 
         then:'grammar should not change'
-        !grammar.fromState
+        grammar.fromState == ""
     }
 
     def "test from"() {
@@ -104,7 +104,7 @@ class GrammarTest extends Specification {
         grammar.to(to_state)
 
         then:'grammar should not change'
-        !grammar.toState
+        grammar.toState == ""
     }
 
     def "test to"() {
