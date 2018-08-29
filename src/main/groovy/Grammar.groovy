@@ -9,7 +9,7 @@ class Grammar {
     String fromState = ""
     String toState = ""
 
-    def static make(@DelegatesTo(strategy = Closure.DELEGATE_ONLY, value = Grammar) Closure closure) {
+    def static make(Closure closure) {
         new Grammar().upgrade closure
     }
     
