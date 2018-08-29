@@ -1,0 +1,17 @@
+language: java
+jdk: oraclejdk8
+
+before_install:
+  - chmod +x gradlew
+
+branches:
+  only:
+  - master
+
+addons:
+  sonarcloud:
+    organization: "polomskibartlomiej-github"
+  token:
+    secure: $SONAR_TOKEN
+  script:
+    - ./gradlew sonarqube
