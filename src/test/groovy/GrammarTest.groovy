@@ -5,6 +5,48 @@ import spock.lang.Specification
  */
 class GrammarTest extends Specification {
     
+    def "all fields initially should be empty strings"() {
+        given:
+        def grammar = new Grammar()
+        
+        expect:
+        with(grammar) {
+            transitionEvent == ""
+            fromState == ""
+            toState == ""
+        }
+    }
+    
+    def "if on(null) then transitionEvent should be empty string"() {
+        given:
+        def grammar = new Grammar().on(null)
+        
+        expect:
+        with(grammar) {
+            transitionEvent == ""
+        }
+    }
+
+    def "if from(null) then fromState should be empty string"() {
+        given:
+        def grammar = new Grammar().from(null)
+
+        expect:
+        with(grammar) {
+            fromState == ""
+        }
+    }
+
+    def "if to(null) then toState should be empty string"() {
+        given:
+        def grammar = new Grammar().to(null)
+
+        expect:
+        with(grammar) {
+            toState == ""
+        }
+    }
+    
     def "test on - immutability"() {
         given:
         def transition_event = "test"

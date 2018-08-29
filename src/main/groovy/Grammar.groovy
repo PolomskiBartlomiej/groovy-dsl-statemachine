@@ -5,26 +5,26 @@ import groovy.transform.Immutable
  */
 @Immutable
 class Grammar {
-    String transitionEvent
-    String fromState
-    String toState
+    String transitionEvent = ""
+    String fromState = ""
+    String toState = ""
 
     def on(event) {
-        new Grammar(transitionEvent: event,
+        new Grammar(transitionEvent: event ? event : "",
                 fromState: fromState,
                 toState: toState)
     }
 
     def from(state) {
         new Grammar(transitionEvent: transitionEvent,
-                fromState: state,
+                fromState: state ? state : "",
                 toState: toState)
     }
 
     def to(state) {
         new Grammar(transitionEvent: transitionEvent,
                 fromState: fromState,
-                toState: state)
+                toState: state ? state : "")
     }
 
     String toString() {
