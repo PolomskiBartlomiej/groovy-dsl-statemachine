@@ -6,6 +6,8 @@ plugins {
 group 'demo-groovy'
 version '1.0-SNAPSHOT'
 
+apply plugin: "jacoco"
+
 repositories {
     mavenCentral()
 }
