@@ -38,9 +38,7 @@ class Grammar {
     }
 
     def on(event, Closure closure) {
-        new Grammar(transitionEvent: event ? event : "",
-                fromState: fromState,
-                toState: toState).upgrade closure
+        on(event).upgrade closure
     }
 
     def from(state) {
@@ -50,9 +48,7 @@ class Grammar {
     }
 
     def from(state, Closure closure) {
-        new Grammar(transitionEvent: transitionEvent,
-                fromState: state ? state : "",
-                toState: toState).upgrade closure
+        from(state).upgrade closure
     }
 
     def to(state) {
@@ -62,9 +58,7 @@ class Grammar {
     }
 
     def to(state, Closure closure) {
-        new Grammar(transitionEvent: transitionEvent,
-                fromState: fromState,
-                toState: state ? state : "").upgrade closure
+        to(state).upgrade closure
     }
 
     String toString() {
