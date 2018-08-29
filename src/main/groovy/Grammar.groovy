@@ -9,6 +9,10 @@ class Grammar {
     String fromState = ""
     String toState = ""
 
+    def static make(@DelegatesTo(strategy = Closure.DELEGATE_ONLY, value = Grammar) Closure closure) {
+        new Grammar().upgrade closure
+    }
+    
     def upgrade(@DelegatesTo(strategy = Closure.DELEGATE_ONLY, value = Grammar) Closure closure) {
         def code = closure.rehydrate(this, this, this)
         code.resolveStrategy = Closure.DELEGATE_ONLY

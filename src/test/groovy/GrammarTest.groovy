@@ -238,4 +238,68 @@ class GrammarTest extends Specification {
         thrown(GrammarWordNotSupported)
     }
 
+    def "make form full packed closure"() {
+        given:
+        def _fromState = "fromState"
+        def _toState = "toState"
+        def _event = "event"
+
+        when:
+        def grammar = Grammar.make {
+            from _fromState, { to _toState, { on _event } }
+        }
+
+        then:
+        with(grammar) {
+            transitionEvent == _event
+            fromState == _fromState
+            toState == _toState
+        }
+    }
+
+    def "make with only toState"() {
+        given:
+        def _toState = "toState"
+
+        when:
+        def grammar = Grammar.make {
+            to _toState
+        }
+
+        then:
+        with(grammar) {
+            toState == _toState
+        }
+    }
+
+    def "make with only fromState"() {
+        given:
+        def _fromState = "fromState"
+
+        when:
+        def grammar = Grammar.make {
+            from _fromState
+        }
+
+        then:
+        with(grammar) {
+            fromState == _fromState
+        }
+    }
+
+    def "make with only transitionEvent"() {
+        given:
+        def _transitionEvent = "transitionEvent"
+
+        when:
+        def grammar = Grammar.make {
+            on _transitionEvent
+        }
+
+        then:
+        with(grammar) {
+            transitionEvent == _transitionEvent
+        }
+    }
+
 }
