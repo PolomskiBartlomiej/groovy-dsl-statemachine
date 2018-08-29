@@ -186,7 +186,7 @@ class GrammarTest extends Specification {
     def "word is missing (property in closure is missing)"() {
         when:
         new Grammar().make {
-            missingMethod
+            missingProperty
         }
 
         then:
