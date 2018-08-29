@@ -17,5 +17,4 @@ addons:
   script:
    - ./gradlew sonarqube \
       -Dsonar.organization=polomskibartlomiej-github \
-      -Dsonar.host.url=https://sonarcloud.io \
-      -Dsonar.login=c94332cc68654a512789d15292d48027af1e08ed
+      -Dsonar.host.url=https://sonarcloud.io
