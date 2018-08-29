@@ -8,14 +8,9 @@ branches:
   only:
   - master
 
-deploy:
-  provider: heroku
-  api_key:
-    secure: $HEROKU_KEY_API
-  app: groovy-dsl
-
 addons:
   sonarcloud:
+    organization: "polomskibartlomiej-github"
   token:
     secure: $SONAR_TOKEN
   script:
