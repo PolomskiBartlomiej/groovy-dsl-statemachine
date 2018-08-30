@@ -1,0 +1,19 @@
+language: groovy
+jdk: oraclejdk8
+
+before_install:
+  - chmod +x gradlew
+
+branches:
+  only:
+  - master
+  - dev
+
+addons:
+  sonarcloud:
+    organization: "polomskibartlomiej-github"
+    token:
+      secure: $SONAR_TOKEN
+
+script:
+   - ./gradlew sonarqube
