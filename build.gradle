@@ -1,19 +1,18 @@
 plugins {
     id 'groovy'
-    id "org.sonarqube" version "2.6.2"
+    id 'org.sonarqube' version '2.6.2'
+    id 'jacoco'
 }
 
 group 'demo-groovy'
 version '1.0-SNAPSHOT'
-
-apply plugin: "jacoco"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compile group: 'org.codehaus.groovy', name: 'groovy-all', version: '3.0.0-alpha-3', ext: 'pom'
+    compile group: 'org.codehaus.groovy', name: 'groovy', version: '2.4.15'
     testCompile group: 'org.spockframework', name: 'spock-core', version: '1.1-groovy-2.4'
     testCompile group: 'cglib', name: 'cglib-nodep', version: '3.2.7'
 }
