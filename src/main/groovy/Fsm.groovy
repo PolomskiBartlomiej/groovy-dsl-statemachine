@@ -1,33 +1,32 @@
 import groovy.transform.Immutable
 
+
 @Immutable
 class Fsm {
 
-    Map<String, Tuple2> events
+    Map transitions
 
-    static def load(@DelegatesTo(value = FsmBuilder) Closure closure) {
+    static def load(@DelegatesTo(value = FsmBuilder,strategy = Closure.DELEGATE_ONLY) Closure closure) {
         def fsmBuilder = new FsmBuilder()
-        def call = closure.rehydrate(fsmBuilder, this, fsmBuilder)
-        call.resolveStrategy = Closure.DELEGATE_ONLY
-        call()
-        fsmBuilder.build()
+        def fmsRecipe = closure.rehydrate(fsmBuilder, this, fsmBuilder)
+        fmsRecipe.resolveStrategy = Closure.DELEGATE_ONLY
+        fmsRecipe().build()
     }
 
     @Override
     String toString() {
-        "Fsm : $events"
+        "Fsm : $transitions"
     }
 
-    private static class FsmBuilder {
-        private def map = [:]
+    def methodMissing(String name, def args) {
+       throw new FsmTransitionNotSupported(name)
+    }
 
-        def apply(@DelegatesTo(value = Grammar, strategy = Closure.DELEGATE_ONLY) Closure closure) {
-            def grammar = Grammar.make(closure) as Grammar
-            map.put(grammar.transitionEvent, new Tuple2(grammar.fromState, grammar.toState))
-        }
+    def propertyMissing(String name) {
+        throw new FsmWordNotSupported()
+    }
 
-        private def build() {
-            new Fsm(map)
-        }
+    def propertyMissing(String name, def arg) {
+        throw new FsmWordNotSupported()
     }
 }

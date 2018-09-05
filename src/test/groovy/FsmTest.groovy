@@ -1,20 +1,50 @@
 import spock.lang.Specification
 
-
 class FsmTest extends Specification {
 
     def "Fsm is immutable"() {
+
         given:
-        def fms = new Fsm(["events": new Tuple2("A", "B")])
+        def fsm = new Fsm("transitions": ["event": ["state1", "state2"]], initialState: "state0")
+
         when:
-        fms.events.put("events2", new Tuple2("C", "D"))
+        fsm.transitions["events2"] = ["state2, state3"]
 
         then:
         thrown(UnsupportedOperationException)
     }
 
+    def "load() throw FsmWordNotSupported when method is not supported"() {
 
-    def "load"() {
+        when:
+        Fsm.load {
+            missingMethod
+        }
+
+        then:
+        def e = thrown(FsmWordNotSupported)
+        with(e) {
+            message == "Word missingMethod is not supported"
+        }
+    }
+
+    def "load() throw FsmTransitionNotSupported when argument is not supported"() {
+
+        when:
+        Fsm.load {
+            apply "a"
+        }
+
+        then:
+        def e = thrown(FsmTransitionNotSupported)
+        with(e) {
+          message == "FSM transition is not supported : apply"
+        }
+    }
+
+
+    def "load() building transitions map with grammar word"() {
+
         when:
         def fsm = Fsm.load {
             apply { on _event1, { from _state1, { to _state2 } } }
@@ -22,18 +52,10 @@ class FsmTest extends Specification {
         }
 
         then:
-        def event1 = fsm.events[_event1]
-        def event2 = fsm.events[_event2]
-
-        with(event1) {
-            first == _state1
-            second == _state2
-        }
-
-        with(event2) {
-            first == _state2
-            second == _state3
-        }
+        fsm.transitions[_event1][0] == _state1
+        fsm.transitions[_event1][1] == _state2
+        fsm.transitions[_event2][0] == _state2
+        fsm.transitions[_event2][1] == _state3
 
         where:
         _event1  | _event2  | _state1  | _state2  | _state3
