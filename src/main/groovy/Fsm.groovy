@@ -23,10 +23,10 @@ class Fsm {
     }
 
     def propertyMissing(String name) {
-        throw new FsmWordNotSupported()
+        throw new FsmWordNotSupported(name)
     }
 
     def propertyMissing(String name, def arg) {
-        throw new FsmWordNotSupported()
+        throw new FsmWordNotSupported(name)
     }
 }
