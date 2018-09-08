@@ -3,6 +3,12 @@ import groovy.transform.PackageScope
 @PackageScope
 class FsmBuilder {
     private def map = [:]
+    private String initState
+
+    def initialState(state) {
+        initState = state
+        this
+    }
 
     def apply(@DelegatesTo(value = Grammar, strategy = Closure.DELEGATE_ONLY) Closure closure) {
         def grammar = Grammar.make(closure)
@@ -23,6 +29,11 @@ class FsmBuilder {
     }
 
     def build() {
-        new Fsm(map)
+        if(initState == null) {
+           throw new IllegalArgumentException("Initial state must be indicated : "
+                   + "use method initialState")
+        }
+
+        new Fsm(map, initState, initState)
     }
 }
