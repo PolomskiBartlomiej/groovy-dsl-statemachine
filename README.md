@@ -10,3 +10,34 @@ aspect of a software system. They allow business experts to read or
 write code without having to be programming experts.
 
 # project description
+We provide complex and fully tested DSL for programming finite state 
+machine:
+* `Grammar`: immutable class representing DSL sentence:
+
+    on `transitionEvent` move from `fromState` to `toState`
+    
+    which is represented in code as:
+    ```
+    new Grammar().on(transitionEvent).from(fromState).to(toState)
+    ```
+    or using closures:
+    ```
+    Grammar.make {
+                    on transitionEvent, { from fromState, { to toState } }
+                 }
+    ```
+    _remark_: not that the word order in sentence is optional, so
+    ```
+    Grammar.make {
+                    on transitionEvent, { from fromState, { to toState } }
+                 }    
+    ```
+    is equivalent to
+    ```
+    Grammar.make {
+                    from _fromState, { to _toState, { on _event } }
+                 }
+    ```
+    and so on.
+    
+* 
