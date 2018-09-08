@@ -42,3 +42,25 @@ machine:
     
 * `Fsm` - immutable class representing finite state machine 
 (transitions container)
+    * we obtain `Fsm` objects using `FsmBuilder`
+    * we could load Fsm (`transitions` map) using closure:
+        ```
+        def fsm2 = Fsm.load {
+            apply { on _event1, { from _state1, { to _state2 } } }
+            apply { on _event2, { from _state2, { to _state3 } } }
+            initialState _state0
+        }        
+        ```
+        will load: `_state0` as initial state and 
+        `[_event1:[_state1, _state2], _event2:[_state2, _state3]]`
+        as transitions map
+    * to move from current state to the other state we call
+        ```
+        fsm.fire(event)
+        ```
+        _Remark_: if we cannot move from current state to the requested
+        state on given event we will stay in current state - no exception
+        is thrown.
+    
+# tests
+**Coverage**: `86%`
