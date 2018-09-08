@@ -9,11 +9,5 @@ branches:
   - master
   - dev
 
-addons:
-  sonarcloud:
-    organization: "polomskibartlomiej-github"
-    token:
-      secure: $SONAR_TOKEN
-
 script:
    - ./gradlew sonarqube
