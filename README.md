@@ -26,13 +26,13 @@ machine:
                     on transitionEvent, { from fromState, { to toState } }
                  }
     ```
-    _remark_: not that the word order in sentence is optional, so
+    _Remark_: note that the word order in sentence is optional, so:
     ```
     Grammar.make {
                     on transitionEvent, { from fromState, { to toState } }
                  }    
     ```
-    is equivalent to
+    is basically equivalent to
     ```
     Grammar.make {
                     from _fromState, { to _toState, { on _event } }
@@ -40,4 +40,5 @@ machine:
     ```
     and so on.
     
-* 
+* `Fsm` - immutable class representing finite state machine 
+(transitions container)
