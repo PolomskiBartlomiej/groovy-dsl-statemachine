@@ -15,7 +15,6 @@ class Fsm {
         fmsRecipe().build()
     }
 
-
     def state() {
         currentState
     }
@@ -25,7 +24,7 @@ class Fsm {
     }
 
     def fire(event) {
-        ofCurrent(from(event))
+        ofCurrent from(event)
     }
 
     @Override
@@ -50,10 +49,10 @@ class Fsm {
     }
 
     private def from(event) {
-        def state = {
+        def evaluateState = {
             transitions[event][0] == currentState ? transitions[event][1] : currentState
         }
 
-        transitions[event] ? state() : currentState
+        transitions[event] ? evaluateState() : currentState
     }
 }
