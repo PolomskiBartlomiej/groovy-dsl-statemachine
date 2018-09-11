@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/PolomskiBartlomiej/groovy-dsl.svg?token=PwyvjePQ7aiAX51hSYLE&branch=master)](https://travis-ci.com/PolomskiBartlomiej/groovy-dsl)
+[![Build Status](https://travis-ci.com/PolomskiBartlomiej/groovy-dsl-statemachine.svg?token=PwyvjePQ7aiAX51hSYLE&branch=master)](https://travis-ci.com/PolomskiBartlomiej/groovy-dsl-statemachine)
 
 # groovy-dsl-statemachine
 In this project we show how to write complex DSL using groovy powerful
